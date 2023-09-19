@@ -1,0 +1,26 @@
+{
+  "data": {
+    "count": 1,
+    "questions": [
+      {
+        "answers": [
+          {
+            "id": "2ca20ca9-2606-46f2-8744-68357738b354",
+            "text": "United State"
+          },
+          {
+            "id": "df4d96b9-2461-46b8-9cf8-1f38f65c58db",
+            "text": "Bethlehem"
+          }
+        ],
+        "correct_answer": "df4d96b9-2461-46b8-9cf8-1f38f65c58db",
+        "id": "19a56783-7fb9-4507-9ae4-8feacf7b0399",
+        "text": "Where was the birthplace of Jesus Christ?",
+        "user_answer": "df4d96b9-2461-46b8-9cf8-1f38f65c58db"
+      }
+    ],
+    "score": 1
+  },
+  "message": "Questions graded successfully",
+  "status": "success"
+}

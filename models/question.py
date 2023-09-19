@@ -17,6 +17,13 @@ class Question(BaseModel, Base):
     answers = relationship('Answer', backref='question',
                            cascade='all, delete-orphan')
 
+    def get_correct_answer(self):
+        """Returns the correct Answer Object"""
+        for answer in self.answers:
+            if answer.is_correct:
+                return answer
+        return None
+
     def to_dict(self, detailed=False) -> Dict[str, str]:
         """Overrides parent's defualt"""
         obj = super().to_dict()
@@ -26,6 +33,11 @@ class Question(BaseModel, Base):
         for attr in attrs:
             if attr in obj:
                 obj.pop(attr)
+
+        answers = []
+        for answer in self.answers:
+            answers.append(answer.to_dict())
+        obj.update({"answers": answers})
 
         if detailed is True:
             return obj

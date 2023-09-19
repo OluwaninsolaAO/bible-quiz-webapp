@@ -41,12 +41,13 @@ def get_user(user_id):
 
 @app_views.route('/users', methods=['POST'])
 def create_users():
-    """Create a new User"""
+    """Create a new User
+    """
     data = postdata()
     if data is None:
         abort(400)
 
-    attrs = ['firstname', 'lastname', 'email']
+    attrs = ['name', 'email']
     user_data: dict = {}
     for attr in attrs:
         if attr in data:
@@ -62,12 +63,12 @@ def create_users():
         user.save()
     except IntegrityError:
         storage.rollback()
-        abort(422)
+        user = storage.match(User, email=user_data.get('email'))
 
     return jsonify({
         "status": "success",
         "message": "User created successfully",
-        "data": user.to_dict()
+        "data": user.to_dict(detailed=True)
     }), 201
 
 
@@ -88,7 +89,7 @@ def update_user(user_id):
 
     # list of user attribues allowed to be updated
     user_data = {}
-    attrs = ['firstname', 'lastname']
+    attrs = ['name']
     for attr in attrs:
         if attr in data and data.get(attr, None) is not None:
             user_data.update({attr: data.get(attr)})
