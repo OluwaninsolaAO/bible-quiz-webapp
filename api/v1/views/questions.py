@@ -20,8 +20,9 @@ def get_questions():
 
     user_questions = []
     if len(questions) > QUESTION_PER_ROUND:
-        for _ in QUESTION_PER_ROUND:
-            index = choice(questions)
+        for _ in range(QUESTION_PER_ROUND):
+            question = choice(questions)
+            index = questions.index(question)
             user_questions.append(questions.pop(index))
     else:
         user_questions = questions
