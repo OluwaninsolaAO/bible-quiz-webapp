@@ -11,27 +11,24 @@ from models.enums import UserRole
 from sqlalchemy.orm import relationship
 
 
-class User(BaseModel, Base, UserAuth):
+class User(BaseModel, Base):
     """Users class"""
     __tablename__ = "users"
 
-    firstname = Column(String(255), nullable=False)
-    lastname = Column(String(255), nullable=False)
+    name = Column(String(255), nullable=False)
     email = Column(String(255), nullable=False, unique=True)
     role = Column(Enum(UserRole), default=UserRole.user,
                   nullable=False)
 
-    @property
-    def name(self) -> str:
-        """Returns User fullname"""
-        return '{} {}'.format(self.firstname, self.lastname)
+    results = relationship('Result', backref='user',
+                           cascade='all, delete-orphan')
 
     def to_dict(self, detailed=False) -> Dict[str, str]:
         """Overrides parent's defualt"""
         obj = super().to_dict()
 
         # level - 1 heldback attributes
-        attrs = ['_password', 'reset_token', 'role']
+        attrs = ['_password', 'reset_token', 'role', 'results']
         for attr in attrs:
             if attr in obj:
                 obj.pop(attr)
