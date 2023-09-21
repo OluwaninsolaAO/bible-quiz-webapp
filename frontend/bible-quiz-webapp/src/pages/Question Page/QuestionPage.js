@@ -10,24 +10,42 @@ function QuestionPage(props) {
   const [loading, setLoading] = useState(true);
 
     // method to fetch the questions from the API
-  const fetchQuestions = async () => {
-    try {
-      // Make a GET request to the API endpoint
-      const response = await axios.get(
-        "http://kamvamindpal.com/v1/questions"
-      );
-      // Set the questions state with the data
-      setQuestions(response.data.data.questions);
-      console.log(response.data.data.questions)
-
-      // Set the loading state to false
+    const fetchQuestions = async () => {
+      try {
+        // Make a GET request to the API endpoint
+        const response = await axios.get(
+          "http://kamvamindpal.com/v1/questions"
+        );
+  
+        // Format the data into an array of objects with keys and ids
+        const formattedQuestions = response.data.data.questions.map(question => {
+          return {
+            id: question.id,
+            text: question.text,
+            answers: question.answers.map(answer => {
+              return {
+                id: answer.id,
+                text: answer.text
+              };
+            })
+          };
+        });
+  
+        // Set the questions state with the formatted data
+        setQuestions(formattedQuestions);
+  
+        // Set the loading state to false
         setLoading(false);
-    } catch (error) {
-      // Handle the error
-      console.error(error);
-      alert("Something went wrong. Please try again later.");
-    }
-  };
+
+        console.log("Formatted Questions:", formattedQuestions);
+
+      } catch (error) {
+        // Handle the error
+        console.error(error);
+        alert("Something went wrong. Please try again later.");
+      }
+    };
+    
 
   const [backgroundImageIndex, setBackgroundImageIndex] = useState(0);
 
@@ -57,8 +75,8 @@ function QuestionPage(props) {
     const handleAnswer = (e) => {
         const value = e.target.value;
         // Update the answers state with the value at the current index
-            setAnswers((prev) => {
-        return [...prev.slice(0, index), value, ...prev.slice(index + 1)];
+        setAnswers((prev) => {
+          return [...prev.slice(0, index), { id: questions[index].answers[index].id, text: value }, ...prev.slice(index + 1)];
         });
     };
 
@@ -88,52 +106,68 @@ function QuestionPage(props) {
         fetchQuestions();
     }, []);
 
-  return (
-    <div 
-    className="question-page"
+    return (
+      <div 
+        className="question-page"
         style={{
-            backgroundImage: `radial-gradient(circle, rgba(15,4,71,0.0984768907563025) 0%, rgba(7,4,48,0.7595413165266106) 58%), ${backgroundImages[backgroundImageIndex]}`,
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
-        }}>
-      {loading ? (
-        <div><Loader/> </div>
-      ) : (
-        <div className="question-center">
+          backgroundImage: `radial-gradient(circle, rgba(15,4,71,0.0984768907563025) 0%, rgba(7,4,48,0.7595413165266106) 58%), ${backgroundImages[backgroundImageIndex]}`,
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          outline: 'none'
+        }}
+      >
+        {loading ? (
+          <div><Loader/> </div>
+        ) : (
+          <div className="question-center">
             <h1>Quiz</h1>
             <p>
-                Question {index + 1} of {questions.length}
+              Question {index + 1} of {Object.keys(questions).length}
             </p>
             {questions.length > 0 && (
-                <div className="question">
-                <h2>{questions[index].text}</h2>
-                <div className="options">
-                    {questions[index].answers.map((option, i) => (
-                    <div key={option.id} className="option">
-                        <input
-                        type="radio"
-                        id={`option-${i}`}
-                        name="answer"
-                        value={option.text}
-                        checked={answers[index] === option.text}
-                        onChange={handleAnswer}
-                        />
-                        <label htmlFor={`option-${i}`}>{option.text}</label>
-                    </div>
-                    ))}
-                </div>
-                </div>
-            )}
-          {index === questions.length - 1 ? (
-            <button onClick={handleSubmit}>Submit</button>
-          ) : (
-            <button onClick={handleNext}>Next</button>
+            <div className="question">
+              <h2>{questions[index].text}</h2>
+              <div className="options">
+                {questions[index].answers.map((option, i) => (
+                  <div key={option.id} className="option">
+                    <input
+                      type="radio"
+                      id={`option-${i}`}
+                      name="answer"
+                      value={option.text}
+                      checked={answers[index] && answers[index].text === option.text}
+                      onChange={handleAnswer}
+                    />
+                    <label htmlFor={`option-${i}`}>{option.text}</label>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
-        </div>
-      )}
-    </div>
-  );
+            {index === Object.keys(questions).length - 1 ? (
+              <button className="btn" onClick={handleSubmit}>Submit</button>
+            ) : (
+              <button className="btn" onClick={handleNext}
+                style={{
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                  padding: '10px',
+                  borderRadius: '10px',
+                  border: 'none',
+                  backgroundImage: 'linear-gradient(to right, #f0f8ff, #1e90ff)',
+                  boxShadow: '0 0 10px rgba(0,0,0,.1)',
+                  cursor: 'pointer',
+                  transition: 'transform .3s, box-shadow .3s',
+                }}
+              >
+                Next
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    );    
 }
 
 

@@ -101,26 +101,26 @@ $font-family: Arial, sans-serif;
             } 
         } 
     }
-    .btn { 
-        font-size :24px; 
-        font-weight :bold; 
-        padding :10px; 
-        border-radius :10px; 
-        border: none;
-        background-image :linear-gradient(to right, $secondary-color, $primary-color); 
-        box-shadow :0 0 10px rgba(0,0,0,.1); 
-        cursor :pointer;
-        transition :transform .3s, box-shadow .3s; 
-        & :hover, & :focus { 
-        transform :scale(1.1); 
-        box-shadow :0 0 20px rgba(0,0,0,.2); 
-    } 
-    // Disable the button when loading 
-        & [disabled] { 
-            opacity :.5; 
-            pointer-events :none; 
-        } 
-    }
+    // .btn { 
+    //     font-size :24px; 
+    //     font-weight :bold; 
+    //     padding :10px; 
+    //     border-radius :10px; 
+    //     border: none;
+    //     background-image :linear-gradient(to right, $secondary-color, $primary-color); 
+    //     box-shadow :0 0 10px rgba(0,0,0,.1); 
+    //     cursor :pointer;
+    //     transition :transform .3s, box-shadow .3s; 
+    //     & :hover, & :focus { 
+    //     transform :scale(1.1); 
+    //     box-shadow :0 0 20px rgba(0,0,0,.2); 
+    // } 
+    // // Disable the button when loading 
+    //     & [disabled] { 
+    //         opacity :.5; 
+    //         pointer-events :none; 
+    //     } 
+    // }
 @media (max-width :768px) { 
     .question-center { 
         padding :10px; 

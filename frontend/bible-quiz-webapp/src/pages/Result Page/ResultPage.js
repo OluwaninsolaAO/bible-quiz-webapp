@@ -39,13 +39,13 @@ function ResultPage(props) {
         try {
             // Making a POST request to the API endpoint with the user answers
             const response = await axios.post(
-                "https://example.com/api/results",
+                "http://kamvamindpal.com/v1/questions",
                 props.answers
             );
             // Set the results state with the data
-            setResults(response.data.data);
+            setResults(response.data.data.questions);
             // Set the correct state with the number of correct answers
-            setCorrect(response.data.data.filter((result) => result.correct).length);
+            setCorrect(response.data.data.questions.filter((result) => result.correct).length);
             // Set the loading state to false
             setLoading(false);
         } catch (error) {
