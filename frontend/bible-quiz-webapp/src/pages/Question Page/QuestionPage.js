@@ -90,7 +90,7 @@ function QuestionPage(props) {
 
   return (
     <div 
-    className="landing-page"
+    className="question-page"
         style={{
             backgroundImage: `radial-gradient(circle, rgba(15,4,71,0.0984768907563025) 0%, rgba(7,4,48,0.7595413165266106) 58%), ${backgroundImages[backgroundImageIndex]}`,
             backgroundPosition: 'center',
