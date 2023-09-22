@@ -19,7 +19,7 @@ $font-family: Arial, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 .question-center {
     box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1),

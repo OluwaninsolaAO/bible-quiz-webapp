@@ -37,23 +37,20 @@ function ResultPage(props) {
     // A function to fetch the results from the API
     const fetchResults = useCallback(async () => {
         try {
-            // Making a POST request to the API endpoint with the user answers
-            const response = await axios.post(
-                "http://kamvamindpal.com/v1/questions",
-                props.answers
-            );
+            // Making a GET request to the API endpoint
+            const response = await axios.get('http://kamvamindpal.com/v1/questions');
             // Set the results state with the data
             setResults(response.data.data.questions);
             // Set the correct state with the number of correct answers
-            setCorrect(response.data.data.questions.filter((result) => result.correct).length);
+            setCorrect(response.data.data.questions.filter(result => result.correct).length);
             // Set the loading state to false
             setLoading(false);
         } catch (error) {
             // Handle the error
             console.error(error);
-            alert("Something went wrong. Please try again later.");
+            alert('Something went wrong. Please try again later.');
         }
-    }, [props.answers]);
+    }, []);
 
     // A function that handles restart
     const handleRestart = () => {

@@ -46,13 +46,11 @@ function QuestionPage(props) {
         (backgroundImageIndex + increment + backgroundImages.length) %
         backgroundImages.length;
       setBackgroundImageIndex(newIndex);
-      console.log(backgroundImageIndex);
     },
     [backgroundImageIndex, backgroundImages]
   );
 
   useEffect(() => {
-    console.log('useEffect triggered');
     const interval = setInterval(() => {
       changeBackground(1);
     }, 9000);
@@ -82,20 +80,39 @@ function QuestionPage(props) {
 
   // Define a function to handle the submit button click
   const handleSubmit = () => {
-    // Check if the user has answered all the questions
-    if (answers.length < questions.length) {
-      alert('Please answer all the questions before submitting');
-    } else {
-      // Pass the user answers to the parent component
-      props.onQuizSubmit(answers);
-      console.log(answers);
-    }
+    // Check if the user has answered the current question
+    if (!Object.keys(answers).includes(questions[index].id)) {
+      alert('Please select an answer before proceeding');
+  } else {
+      setIndex(prev => prev + 1);
+      // Check if it's the last question
+      if (index === questions.length - 1) {
+          // Quiz is complete, submit the answers
+          props.onQuizSubmit(answers);
+      }
+  }
   };
 
   // Use useEffect hook to fetch the questions when the component mounts
   useEffect(() => {
     fetchQuestions();
   }, []);
+
+  const buttonStyle = {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    padding: '10px',
+    borderRadius: '10px',
+    border: 'none',
+    backgroundImage: 'linear-gradient(to right, white, grey)',
+    boxShadow: '0 0 10px rgba(0,0,0,.1)',
+    cursor: 'pointer',
+    transition: 'transform .3s, box-shadow .3s'
+  };
+  const disabledStyle = {
+    opacity: '.5',
+    pointerEvents: 'none'
+  };
 
   return (
     <div
@@ -139,9 +156,9 @@ function QuestionPage(props) {
             </div>
           )}
           {index === questions.length - 1 ? (
-            <button onClick={handleSubmit}>Submit</button>
+            <button onClick={handleSubmit} style={buttonStyle}>Submit</button>
           ) : (
-            <button onClick={handleNext}>Next</button>
+            <button onClick={handleNext} style={buttonStyle}>Next</button>
           )}
         </div>
       )}
