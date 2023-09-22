@@ -31,7 +31,6 @@ function LandingPage(props) {
   );
 
   useEffect(() => {
-    console.log('useEffect triggered'); // Add this line
     const interval = setInterval(() => {
       changeBackground(1); // Move to the next background image
     }, 9000); // Change the background every 9 seconds
@@ -46,14 +45,21 @@ function LandingPage(props) {
     if (name.trim() === '' || email.trim() === '') {
       alert('Please enter your name and email');
     } else {
-      props.onUserSubmit({ name, email });
+      await axios
+        .post('http://kamvamindpal.com/v1/users', {
+          name,
+          email,
+        })
+        .then((response) => {
+          if (response.status === 201) {
+            props.onUserSubmit({ name, email });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('Failed to create User');
+        });
     }
-
-    const resp = await axios.post('http://kamvamindpal.com/v1/users', {
-      name,
-      email,
-    });
-    console.log(resp.data);
   };
 
   return (
