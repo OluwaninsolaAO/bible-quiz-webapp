@@ -83,14 +83,14 @@ function QuestionPage(props) {
     // Check if the user has answered the current question
     if (!Object.keys(answers).includes(questions[index].id)) {
       alert('Please select an answer before proceeding');
-  } else {
-      setIndex(prev => prev + 1);
+    } else {
+      setIndex((prev) => prev + 1);
       // Check if it's the last question
       if (index === questions.length - 1) {
-          // Quiz is complete, submit the answers
-          props.onQuizSubmit(answers);
+        // Quiz is complete, submit the answers
+        props.onQuizSubmit(answers);
       }
-  }
+    }
   };
 
   // Use useEffect hook to fetch the questions when the component mounts
@@ -107,11 +107,11 @@ function QuestionPage(props) {
     backgroundImage: 'linear-gradient(to right, white, grey)',
     boxShadow: '0 0 10px rgba(0,0,0,.1)',
     cursor: 'pointer',
-    transition: 'transform .3s, box-shadow .3s'
+    transition: 'transform .3s, box-shadow .3s',
   };
   const disabledStyle = {
     opacity: '.5',
-    pointerEvents: 'none'
+    pointerEvents: 'none',
   };
 
   return (
@@ -156,9 +156,13 @@ function QuestionPage(props) {
             </div>
           )}
           {index === questions.length - 1 ? (
-            <button onClick={handleSubmit} style={buttonStyle}>Submit</button>
+            <button onClick={handleSubmit} style={buttonStyle}>
+              Submit
+            </button>
           ) : (
-            <button onClick={handleNext} style={buttonStyle}>Next</button>
+            <button onClick={handleNext} style={buttonStyle}>
+              Next
+            </button>
           )}
         </div>
       )}
