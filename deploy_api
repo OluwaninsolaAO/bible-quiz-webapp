@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+scp -r {api,models} kamva-api:~/git/ekklesia-bible-quiz
