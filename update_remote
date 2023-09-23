@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+scp -r frontend/{.gitignore,public/,README.md,package.json,src/,package-lock.json,fabfile.py,setup_server.sh} kamva-api:~/git/ekklesia-bible-quiz/frontend
